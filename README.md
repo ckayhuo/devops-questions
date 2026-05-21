@@ -2234,23 +2234,25 @@ Hide/Show table of contents
  *   **Scalability:** Enables organizations to scale their development efforts more effectively.
 
  **Example IDP Components:**
- ```mermaid
- graph TD
-     subgraph IDP [Internal Developer Platform]
-         A[Developer Portal/CLI] --> B{Self-Service APIs}
-         B --> C[Service Catalog]
-         B --> D[CI/CD Automation]
-         B --> E[Infrastructure Provisioning]
-         B --> F[Monitoring & Observability Tools]
-         B --> G[Security & Compliance Policies]
-     end
-     Dev[Developer] --> A
-     D --> H[Deployment Targets e.g., Kubernetes]
-     E --> I[Cloud Providers/On-prem Infra]
-     F --> J[Logging & Metrics Systems]
-     G --> D
-     G --> E
- ```
+   ```mermaid
+   graph TD
+       CP[Control Plane] -- Config & Policy Updates --> DP1["Data Plane Proxy 1 (Sidecar)"]
+       CP -- Config & Policy Updates --> DP2["Data Plane Proxy 2 (Sidecar)"]
+       CP -- Config & Policy Updates --> DPN["Data Plane Proxy N (Sidecar)"]
+   
+       S1[Service A] <--> DP1
+       S2[Service B] <--> DP2
+       SN[Service N] <--> DPN
+   
+       DP1 -- Actual Traffic --> DP2
+       DP2 -- Actual Traffic --> DPN
+   
+       DP1 -- Telemetry --> O[Observability Backend]
+       DP2 -- Telemetry --> O
+       DPN -- Telemetry --> O
+   
+       Operator -->|Manages via API/CLI| CP
+   ```
 
  **[⬆ Back to Top](#table-of-contents)**
 
