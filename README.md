@@ -2372,26 +2372,26 @@ Hide/Show table of contents
 
  **Diagram:**
  ```mermaid
- graph LR
-     subgraph Initial State
-         LB1[Load Balancer] --> Blue1[Blue Environment (v1 - Live)]
-         Green1[Green Environment (v1 - Idle)]
-     end
-
-     subgraph Deployment & Testing
-         LB2[Load Balancer] --> Blue2[Blue Environment (v1 - Live)]
-         Deploy --> Green2[Green Environment (v2 - Staging/Testing)]
-     end
-
-     subgraph Traffic Switch
-         LB3[Load Balancer] --> Green3[Green Environment (v2 - Live)]
-         Blue3[Blue Environment (v1 - Idle/Hot Standby)]
-     end
-
-     subgraph Optional Rollback
-         LB4[Load Balancer] --> Blue4[Blue Environment (v1 - Live again)]
-         Green4[Green Environment (v2 - Problematic)]
-     end
+   graph LR
+       subgraph Initial State
+           LB1[Load Balancer] --> Blue1["Blue Environment (v1 - Live)"]
+           Green1["Green Environment (v1 - Idle)"]
+       end
+   
+       subgraph Deployment & Testing
+           LB2[Load Balancer] --> Blue2["Blue Environment (v1 - Live)"]
+           Deploy --> Green2["Green Environment (v2 - Staging/Testing)"]
+       end
+   
+       subgraph Traffic Switch
+           LB3[Load Balancer] --> Green3["Green Environment (v2 - Live)"]
+           Blue3["Blue Environment (v1 - Idle/Hot Standby)"]
+       end
+   
+       subgraph Optional Rollback
+           LB4[Load Balancer] --> Blue4["Blue Environment (v1 - Live again)"]
+           Green4["Green Environment (v2 - Problematic)"]
+       end
  ```
 
  **Benefits:**
@@ -2831,22 +2831,22 @@ Hide/Show table of contents
  **Interaction with Data Plane:**
  ```mermaid
  graph TD
-     CP[Control Plane] -- Config & Policy Updates --> DP1[Data Plane Proxy 1 (Sidecar)]
-     CP -- Config & Policy Updates --> DP2[Data Plane Proxy 2 (Sidecar)]
-     CP -- Config & Policy Updates --> DPN[Data Plane Proxy N (Sidecar)]
+    CP[Control Plane] -- Config & Policy Updates --> DP1["Data Plane Proxy 1 (Sidecar)"]
+    CP -- Config & Policy Updates --> DP2["Data Plane Proxy 2 (Sidecar)"]
+    CP -- Config & Policy Updates --> DPN["Data Plane Proxy N (Sidecar)"]
 
-     S1[Service A] <--> DP1
-     S2[Service B] <--> DP2
-     SN[Service N] <--> DPN
+    S1[Service A] <--> DP1
+    S2[Service B] <--> DP2
+    SN[Service N] <--> DPN
 
-     DP1 -- Actual Traffic --> DP2
-     DP2 -- Actual Traffic --> DPN
+    DP1 -- Actual Traffic --> DP2
+    DP2 -- Actual Traffic --> DPN
 
-     DP1 -- Telemetry --> O[Observability Backend]
-     DP2 -- Telemetry --> O
-     DPN -- Telemetry --> O
+    DP1 -- Telemetry --> O[Observability Backend]
+    DP2 -- Telemetry --> O
+    DPN -- Telemetry --> O
 
-     Operator -->|Manages via API/CLI| CP
+    Operator -->|Manages via API/CLI| CP
  ```
  *   The Control Plane configures the Data Plane proxies.
  *   The Data Plane proxies handle all request traffic between services based on the configuration received from the Control Plane.
